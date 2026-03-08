@@ -92,7 +92,7 @@ const Moderation = () => {
   const fetchPending = useCallback(async () => {
     const { data: posts } = await supabase
       .from('posts')
-      .select('id, title, content, image_urls, created_at, author:profiles!posts_author_id_fkey(username)')
+      .select('id, title, content, image_urls, created_at, author:profiles_public!posts_author_id_fkey(username)')
       .eq('status', 'pending')
       .order('created_at', { ascending: false });
     if (posts) setPendingPosts(posts as any);
