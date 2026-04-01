@@ -209,7 +209,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory }: Props) => {
           </div>
 
           <p className="text-xs text-muted-foreground">
-            You can attach up to 2 photos or 1 video (max {MAX_VIDEO_MB}MB), not both.
+            You can attach up to {MAX_IMAGES} photos or 1 video (max {MAX_VIDEO_MB}MB), not both. Photos are auto-compressed to WebP.
             {(images.length > 0 || videoFile) && ' Posts with media require admin approval.'}
           </p>
 
