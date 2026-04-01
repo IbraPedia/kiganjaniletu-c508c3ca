@@ -482,8 +482,8 @@ const PostCard = ({ post, onUpdate, expanded = false, autoShowComments = false }
             {post.image_urls.map((url, i) =>
               isMediaVideo(url) ? (
                 <video
-                  key={i} src={url} controls
-                  className="w-full rounded-lg max-h-64 border cursor-pointer"
+                  key={i} src={url} controls preload="metadata" playsInline
+                  className="w-full rounded-lg max-h-64 border cursor-pointer bg-black"
                   onClick={(e) => { e.preventDefault(); setViewerMedia({ url, isVideo: true }); }}
                 />
               ) : (
