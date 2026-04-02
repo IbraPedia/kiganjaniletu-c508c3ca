@@ -234,6 +234,7 @@ export type Database = {
           image_urls: string[] | null
           status: string
           title: string
+          type: string
           updated_at: string
         }
         Insert: {
@@ -245,6 +246,7 @@ export type Database = {
           image_urls?: string[] | null
           status?: string
           title: string
+          type?: string
           updated_at?: string
         }
         Update: {
@@ -256,6 +258,7 @@ export type Database = {
           image_urls?: string[] | null
           status?: string
           title?: string
+          type?: string
           updated_at?: string
         }
         Relationships: [

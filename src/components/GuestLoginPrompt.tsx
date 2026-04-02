@@ -45,7 +45,7 @@ const GuestLoginPrompt = () => {
           <LogIn className="h-3.5 w-3.5" /> Sign In
         </Button>
         <button
-          onClick={() => { setVisible(false); setDismissed(true); setTimeout(() => setDismissed(false), 15000); }}
+          onClick={() => { setVisible(false); setDismissed(true); setTimeout(() => setDismissed(false), 5000); }}
           className="text-muted-foreground hover:text-foreground shrink-0"
         >
           <X className="h-4 w-4" />

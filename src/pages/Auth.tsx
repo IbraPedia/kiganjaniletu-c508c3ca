@@ -8,6 +8,7 @@ import { toast } from 'sonner';
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@/components/ui/input-otp';
 import logo from '@/assets/logo.png';
 import { validateUsername } from '@/lib/usernameValidation';
+import { Separator } from '@/components/ui/separator';
 
 function generateUsernameSuggestions(firstName: string, lastName: string): string[] {
   const f = firstName.toLowerCase().replace(/[^a-z]/g, '');
