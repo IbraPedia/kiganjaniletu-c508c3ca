@@ -17,6 +17,7 @@ import CategoryFeed from "./pages/CategoryFeed";
 import NotFound from "./pages/NotFound";
 import Moderation from "./pages/Moderation";
 import Privacy from "./pages/Privacy";
+import CreateThread from "./pages/CreateThread";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +43,7 @@ const App = () => (
                   <Route path="/category/:slug" element={<CategoryFeed />} />
                   <Route path="/moderation" element={<Moderation />} />
                   <Route path="/privacy" element={<Privacy />} />
+                  <Route path="/create-thread" element={<CreateThread />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </div>

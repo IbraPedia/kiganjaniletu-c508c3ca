@@ -13,14 +13,14 @@ const GuestLoginPrompt = () => {
   useEffect(() => {
     if (user) return; // Don't show for logged-in users
 
-    // Show after 5 seconds initially, then every 15 seconds
+    // Show after 5 seconds initially, then every 5 seconds
     const initial = setTimeout(() => {
       setVisible(true);
     }, 5000);
 
     const interval = setInterval(() => {
       if (!dismissed) setVisible(true);
-    }, 15000);
+    }, 5000);
 
     return () => {
       clearTimeout(initial);
@@ -45,7 +45,7 @@ const GuestLoginPrompt = () => {
           <LogIn className="h-3.5 w-3.5" /> Sign In
         </Button>
         <button
-          onClick={() => { setVisible(false); setDismissed(true); setTimeout(() => setDismissed(false), 15000); }}
+          onClick={() => { setVisible(false); setDismissed(true); setTimeout(() => setDismissed(false), 5000); }}
           className="text-muted-foreground hover:text-foreground shrink-0"
         >
           <X className="h-4 w-4" />

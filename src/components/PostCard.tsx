@@ -152,8 +152,15 @@ const PostCard = ({ post, onUpdate, expanded = false, autoShowComments = false }
 
     // Check for middle finger emoji
     if (containsMiddleFinger(newComment)) {
+      // Auto-delete is handled by not inserting; ban user + notify
+      try {
+        await suspendUserForEmoji(user.id);
+        // Notify admins
+        supabase.functions.invoke('notify-report', {
+          body: { reason: 'User used prohibited emoji (🖕) in a comment. Auto-banned for 14 days.', contentUrl: `${window.location.origin}/post/${post.id}` },
+        }).catch(() => {});
+      } catch {}
       toast.error('Your account has been suspended for 14 days for using a prohibited emoji.');
-      try { await suspendUserForEmoji(user.id); } catch {}
       return;
     }
 
