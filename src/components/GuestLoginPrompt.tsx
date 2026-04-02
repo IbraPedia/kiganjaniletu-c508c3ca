@@ -13,14 +13,14 @@ const GuestLoginPrompt = () => {
   useEffect(() => {
     if (user) return; // Don't show for logged-in users
 
-    // Show after 5 seconds initially, then every 15 seconds
+    // Show after 5 seconds initially, then every 5 seconds
     const initial = setTimeout(() => {
       setVisible(true);
     }, 5000);
 
     const interval = setInterval(() => {
       if (!dismissed) setVisible(true);
-    }, 15000);
+    }, 5000);
 
     return () => {
       clearTimeout(initial);
