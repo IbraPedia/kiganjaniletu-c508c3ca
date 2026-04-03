@@ -36,7 +36,7 @@ const Index = () => {
   const fetchPosts = useCallback(async () => {
     const { data: postsData, error: postsError } = await supabase
       .from('posts')
-      .select('id, title, content, created_at, image_urls, category, status, author_id')
+      .select('id, title, content, created_at, image_urls, category, status, author_id, type')
       .order('created_at', { ascending: false });
 
     if (postsError || !postsData) { setLoading(false); return; }

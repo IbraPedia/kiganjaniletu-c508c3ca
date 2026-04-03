@@ -16,6 +16,7 @@ import { toast } from 'sonner';
 import { formatDistanceToNow } from 'date-fns';
 import { CATEGORIES } from '@/lib/categories';
 import MediaViewer from '@/components/MediaViewer';
+import DOMPurify from 'dompurify';
 
 interface Post {
   id: string;
@@ -29,6 +30,7 @@ interface Post {
   image_urls?: string[];
   category?: string;
   status?: string;
+  type?: string;
 }
 
 interface Comment {
@@ -299,7 +301,18 @@ const PostCard = ({ post, onUpdate, expanded = false, autoShowComments = false }
   const canEditPost = isMod || (isAuthor && canEditTime(post.created_at));
   const canDeletePost = isMod || (isAuthor && canDeleteTime(post.created_at));
 
+  const isThread = post.type === 'thread';
+
   const renderContent = () => {
+    if (isThread) {
+      // Thread content is HTML from TipTap – sanitize and render
+      const html = needsTruncation ? post.content.slice(0, PREVIEW_LENGTH) + '…' : post.content;
+      return DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: ['p', 'strong', 'em', 'h1', 'h2', 'h3', 'ul', 'ol', 'li', 'br', 'img'],
+        ALLOWED_ATTR: ['src', 'alt', 'class'],
+      });
+    }
+    // Regular post – escape HTML and apply markdown-like formatting
     const raw = needsTruncation ? post.content.slice(0, PREVIEW_LENGTH) + '…' : post.content;
     return raw
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -491,7 +504,7 @@ const PostCard = ({ post, onUpdate, expanded = false, autoShowComments = false }
       <CardContent className="space-y-3">
         {!editingPost && (
           <>
-            <p className="text-foreground/90 whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: renderContent() }} />
+            <div className={`text-foreground/90 ${isThread ? 'prose prose-sm dark:prose-invert max-w-none' : 'whitespace-pre-wrap'}`} dangerouslySetInnerHTML={{ __html: renderContent() }} />
             {needsTruncation && (
               <Link to={`/post/${post.id}`} className="text-primary text-sm font-medium hover:underline">Read more</Link>
             )}

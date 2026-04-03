@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { uploadFile, compressImage } from '@/lib/supabaseStorage';
 import { containsMiddleFinger, suspendUserForEmoji, checkSuspension } from '@/lib/moderation';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -24,6 +25,7 @@ const MAX_IMAGES = 4;
 const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExternalOpenChange }: Props) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [postTitle, setPostTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState(defaultCategory || '');
   const [loading, setLoading] = useState(false);
@@ -53,6 +55,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
   };
 
   const handleSubmit = async () => {
+    if (!postTitle.trim()) { toast.error('Please add a title'); return; }
     if (!content.trim()) { toast.error('Please write something'); return; }
     if (!category) { toast.error('Please select a category'); return; }
     if (content.length > MAX_CHARS) { toast.error(`Post must be under ${MAX_CHARS} characters`); return; }
@@ -80,7 +83,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
 
       const hasMedia = mediaUrls.length > 0;
       const { error } = await supabase.from('posts').insert({
-        title: content.trim().slice(0, 60),
+        title: postTitle.trim(),
         content: content.trim(),
         author_id: user!.id,
         image_urls: mediaUrls,
@@ -95,7 +98,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
       } else {
         toast.success('Post published!');
       }
-      setContent(''); setCategory(defaultCategory || '');
+      setPostTitle(''); setContent(''); setCategory(defaultCategory || '');
       setImages([]); previews.forEach(p => URL.revokeObjectURL(p)); setPreviews([]);
       setIsOpen(false);
       onPostCreated();
@@ -113,6 +116,13 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
           <DialogTitle style={{ fontFamily: 'var(--font-heading)' }}>Create a Post</DialogTitle>
         </DialogHeader>
         <div className="space-y-4 pt-2">
+          <Input
+            placeholder="Post title"
+            value={postTitle}
+            onChange={(e) => setPostTitle(e.target.value)}
+            maxLength={100}
+          />
+
           <Select value={category} onValueChange={setCategory}>
             <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
             <SelectContent>
@@ -158,8 +168,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
           </div>
 
           <p className="text-xs text-muted-foreground">
-            Up to {MAX_IMAGES} photos. Auto-compressed to WebP.
-            {images.length > 0 && ' Posts with media require admin approval.'}
+            Up to {MAX_IMAGES} photos.
           </p>
 
           <Button onClick={handleSubmit} disabled={loading} className="w-full">

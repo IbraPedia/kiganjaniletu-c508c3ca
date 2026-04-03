@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -45,7 +45,7 @@
     --sidebar-border: 200 20% 88%;
     --sidebar-ring: 196 85% 40%;
 
-    --font-heading: 'Playfair Display', serif;
+    --font-heading: 'Nunito', sans-serif;
     --font-body: 'Nunito', sans-serif;
   }
 
