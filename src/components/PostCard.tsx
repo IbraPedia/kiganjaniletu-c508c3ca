@@ -30,6 +30,7 @@ interface Post {
   image_urls?: string[];
   category?: string;
   status?: string;
+  type?: string;
 }
 
 interface Comment {
