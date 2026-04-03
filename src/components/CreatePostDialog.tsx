@@ -82,7 +82,7 @@ const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExte
 
       const hasMedia = mediaUrls.length > 0;
       const { error } = await supabase.from('posts').insert({
-        title: content.trim().slice(0, 60),
+        title: postTitle.trim(),
         content: content.trim(),
         author_id: user!.id,
         image_urls: mediaUrls,
