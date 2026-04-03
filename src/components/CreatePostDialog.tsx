@@ -24,6 +24,7 @@ const MAX_IMAGES = 4;
 const CreatePostDialog = ({ onPostCreated, defaultCategory, externalOpen, onExternalOpenChange }: Props) => {
   const { user } = useAuth();
   const [open, setOpen] = useState(false);
+  const [postTitle, setPostTitle] = useState('');
   const [content, setContent] = useState('');
   const [category, setCategory] = useState(defaultCategory || '');
   const [loading, setLoading] = useState(false);
